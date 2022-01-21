@@ -1,0 +1,21 @@
+name: Review
+
+on: pull_request_target
+
+jobs:
+  review:
+    if: startsWith(github.repository, 'gregxsunday/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Review Pull Request
+        id: review
+        uses: ./review-cask-pr
+        if: always()
+      - name: Post Pull Request Review
+        uses: ./post-review
+        with:
+          token: ${{ (github.event.pull_request.user.login == 'BrewTestBot' && secrets.GITHUB_TOKEN) || secrets.HOMEBREW_GITHUB_API_TOKEN }}
+          event: ${{ steps.review.outputs.event }}
+          body: |
+            ${{ steps.review.outputs.message }}
+        if: always() && steps.review.outputs.event
