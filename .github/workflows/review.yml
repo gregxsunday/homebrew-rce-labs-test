@@ -9,9 +9,11 @@ jobs:
     steps:
       - name: Review Pull Request
         id: review
+        uses: actions/checkout@v1
         uses: ./review-cask-pr
         if: always()
       - name: Post Pull Request Review
+        uses: actions/checkout@v1
         uses: ./post-review
         with:
           token: ${{ (github.event.pull_request.user.login == 'BrewTestBot' && secrets.GITHUB_TOKEN) || secrets.HOMEBREW_GITHUB_API_TOKEN }}
