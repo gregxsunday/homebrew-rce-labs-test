@@ -1,10 +1,9 @@
-FROM debian:9.5-slim
+FROM homebrew/ubuntu16.04
 
 RUN brew ruby -e 'Homebrew.install_gem! "git_diff"'
 
-ADD review.rb /review.rb
-ADD git_diff_extension.rb /git_diff_extension.rb
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY review.rb /review.rb
+COPY git_diff_extension.rb /git_diff_extension.rb
+COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
