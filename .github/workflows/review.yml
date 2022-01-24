@@ -12,6 +12,8 @@ jobs:
         id: review
         uses: ./review-cask-pr
         if: always()
+      - name: Rubocop checks
+        uses: gimenete/rubocop-action@1.0
       - name: Post Pull Request Review
         uses: ./post-review
         with:
