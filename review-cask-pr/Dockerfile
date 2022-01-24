@@ -1,4 +1,4 @@
-FROM homebrew/ubuntu16.04:master
+FROM debian:9.5-slim
 
 RUN brew ruby -e 'Homebrew.install_gem! "git_diff"'
 
