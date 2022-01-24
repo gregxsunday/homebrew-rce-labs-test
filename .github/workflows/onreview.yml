@@ -1,6 +1,4 @@
-on:
-  pull_request_review:
-    types: [submitted]
+on: pull_request_review
 
 jobs:
   approved:
