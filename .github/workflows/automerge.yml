@@ -27,7 +27,7 @@ on:
 jobs:
   automerge:
     if: >
-      startsWith(github.repository, 'Homebrew/') &&
+      startsWith(github.repository, 'gregxsunday/') &&
       (
         (
           github.event.review.state == 'approved' &&
@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: reitermarkus/automerge@46b8b95bac3325964476acc56f9160a98d1e7291
         with:
-          token: ${{ secrets.HOMEBREW_GITHUB_API_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: squash
           squash-title: true
           do-not-merge-labels: 'do not merge,awaiting maintainer feedback,awaiting user reply'
