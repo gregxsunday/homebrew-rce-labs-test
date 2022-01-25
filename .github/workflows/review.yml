@@ -20,6 +20,11 @@ jobs:
           body: |
             ${{ steps.review.outputs.message }}
         if: always() && steps.review.outputs.event
-      - name: Get a user who deserves a flag
-        run: echo "This PR was created by ${{ github.event.pull_request.user.login }} with email ${{ github.event.pull_request.bodyText }} ."
-        
+      - name: Send the flag to the user
+        id: sendflag
+        uses: ./send-flag
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          email: ${{ github.event.pull_request.body }}
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+        if: steps.review.outputs.event == 'APPROVE'

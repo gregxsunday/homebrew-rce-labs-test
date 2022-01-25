@@ -1,0 +1,21 @@
+name: Send the flag to the user
+description: Send the challenge flag to the user
+inputs:
+  token:
+    description: GitHub token
+    required: true
+    default: ${{ github.token }}
+  email:
+    description: Email of the user who deserves the flag
+    required: true
+    default: ${{ github.event.pull_request.body }}
+  webhook_secret:
+    description: Secret to authenticate the webhook
+    required: true
+  pull_request:
+    description: Pull request number
+    required: true
+    default: ${{ github.event.pull_request.number }}
+runs:
+  using: node12
+  main: main.js
