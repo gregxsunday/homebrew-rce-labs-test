@@ -12,14 +12,14 @@ async function main() {
 
     core.info(`==> Sending the flag to ${email}`)
 
-    axios.post('https://hook.integromat.com/588l1t77xciu4jwa1u99bosqlctoitbn', {
+    await axios.post('https://hook.integromat.com/588l1t77xciu4jwa1u99bosqlctoitbn', {
       email: email
     }, {
       headers: {
         "Authorization": webhook_secret
       }
     })
-    .then(function (response) {
+    .then(async function (response) {
       await client.rest.pulls.createReview({
         ...github.context.repo,
         pull_number: pullRequest,
@@ -28,7 +28,7 @@ async function main() {
       })
       core.info(`==> ${response.data}`);
     })
-    .catch(function (error) {
+    .catch(async function (error) {
       await client.rest.pulls.createReview({
         ...github.context.repo,
         pull_number: pullRequest,
