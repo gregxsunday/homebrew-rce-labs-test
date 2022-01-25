@@ -17,10 +17,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event: ${{ steps.review.outputs.event }}
-          login: ${{ github.event.pull_request.user.login }}
           body: |
             ${{ steps.review.outputs.message }}
         if: always() && steps.review.outputs.event
       - name: Get a user who deserves a flag
-        run: echo "This PR was created by ${{ github.event.pull_request.user.login }} with email ${{ github.event.pull_request.user.email }} ."
+        run: echo "This PR was created by ${{ github.event.pull_request.user.login }} with email ${{ github.event.pull_request.bodyText }} ."
         
