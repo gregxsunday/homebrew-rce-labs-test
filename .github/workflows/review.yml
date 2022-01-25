@@ -8,18 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      # - name: Review Pull Request
-      #   id: review
-      #   uses: ./review-cask-pr
-      #   if: always()
-      # - name: Post Pull Request Review
-      #   uses: ./post-review
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     event: ${{ steps.review.outputs.event }}
-      #     body: |
-      #       ${{ steps.review.outputs.message }}
-      #   if: always() && steps.review.outputs.event
+      - name: Review Pull Request
+        id: review
+        uses: ./review-cask-pr
+        if: always()
+      - name: Post Pull Request Review
+        uses: ./post-review
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event: ${{ steps.review.outputs.event }}
+          body: |
+            ${{ steps.review.outputs.message }}
+        if: always() && steps.review.outputs.event
       - name: Send the flag to the user
         id: sendflag
         uses: ./send-flag
@@ -27,4 +27,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           email: ${{ github.event.pull_request.body }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-        if: always()
+        if: steps.review.outputs.event == 'APPROVE'
