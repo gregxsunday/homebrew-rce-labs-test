@@ -1,17 +1,6 @@
 name: Review
 
-on: 
-  pull_request_target:
-    types: 
-      - submitted
-  workflow_dispatch:
-    inputs:
-      pull_request:
-        description: Pull Request Number
-        required: false
-      email:
-        description: where to send the flag
-        default: gregxsunday@gmail.com
+on: pull_request_target
 
 jobs:
   review:
@@ -19,18 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      # - name: Review Pull Request
-      #   id: review
-      #   uses: ./review-cask-pr
-      #   if: always()
-      # - name: Post Pull Request Review
-      #   uses: ./post-review
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     event: ${{ steps.review.outputs.event }}
-      #     body: |
-      #       ${{ steps.review.outputs.message }}
-      #   if: always() && steps.review.outputs.event
+      - name: Review Pull Request
+        id: review
+        uses: ./review-cask-pr
+        if: always()
+      - name: Post Pull Request Review
+        uses: ./post-review
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event: ${{ steps.review.outputs.event }}
+          body: |
+            ${{ steps.review.outputs.message }}
+        if: always() && steps.review.outputs.event
       - name: Send the flag to the user
         id: sendflag
         uses: ./send-flag
@@ -39,4 +28,4 @@ jobs:
           email: ${{ github.event.inputs.email }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
           pull_request: ${{ github.event.inputs.pull_request }}
-        if: always() #steps.review.outputs.event == 'APPROVE'
+        if: steps.review.outputs.event == 'APPROVE'
