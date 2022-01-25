@@ -7,19 +7,20 @@ jobs:
     if: startsWith(github.repository, 'gregxsunday/')
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v1
-      # - name: Review Pull Request
-      #   id: review
-      #   uses: ./review-cask-pr
-      #   if: always()
-      # - name: Post Pull Request Review
-      #   uses: ./post-review
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     event: ${{ steps.review.outputs.event }}
-      #     body: |
-      #       ${{ steps.review.outputs.message }}
-      #   if: always() && steps.review.outputs.event
+      - uses: actions/checkout@v1
+      - name: Review Pull Request
+        id: review
+        uses: ./review-cask-pr
+        if: always()
+      - name: Post Pull Request Review
+        uses: ./post-review
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event: ${{ steps.review.outputs.event }}
+          login: ${{ github.event.pull_request.user.login }}
+          body: |
+            ${{ steps.review.outputs.message }}
+        if: always() && steps.review.outputs.event
       - name: Get a user who deserves a flag
         run: echo "This PR was created by ${{ github.event.pull_request.user.login }} with email ${{ github.event.pull_request.user.email }} ."
         

@@ -6,6 +6,7 @@ async function main() {
     const token = core.getInput("token", { required: true })
     const pullRequest = core.getInput("pull_request", { required: true })
     const event = core.getInput("event", { required: true })
+    const login = core.getInput("login", { required: false })
     const body = core.getInput("body")
 
     if ((event === 'COMMENT' || event === 'REQUEST_CHANGES') && !body) {
@@ -22,6 +23,10 @@ async function main() {
       event: event,
       body: body
     })
+
+    console.log(await client.rest.users.getByUsername({
+      login,
+    }))
   } catch (error) {
     core.setFailed(error.message)
   }
