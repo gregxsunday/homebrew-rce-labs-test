@@ -25,7 +25,7 @@ async function main() {
         ...github.context.repo,
         pull_number: pullRequest,
         event: 'COMMENT',
-        body: response.data
+        body: `Success! Flag sent to the email: ${email}`
       })
       core.info(`==> ${response.data}`);
     })
