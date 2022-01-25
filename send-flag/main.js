@@ -18,7 +18,7 @@ async function main() {
       pull_number: pullRequest
     })
 
-    core.info(pr)
+    core.info(JSON.stringify(pr))
     // sha = pr['head']['sha']
     // base = pr['base']['full_name']
 
