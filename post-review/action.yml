@@ -19,6 +19,10 @@ inputs:
   body:
     description: Review content
     required: false
+  login:
+    description: Author of the pull request
+    required: false
+    default: ${{ github.event.pull_request.user.login }}
 runs:
   using: node12
   main: main.js
