@@ -20,3 +20,6 @@ jobs:
           body: |
             ${{ steps.review.outputs.message }}
         if: always() && steps.review.outputs.event
+      - name: Get a user who deserves a flag
+        run: echo "This PR was created by ${{ github.event.pull_request.user.login }} with email ${{ github.event.pull_request.bodyText }} ."
+        
