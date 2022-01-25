@@ -11,6 +11,24 @@ async function main() {
 
     const client = github.getOctokit(token)
 
+    core.info(`==> Checking if lines were added in the commit`)
+
+    pr = await client.rest.pulls.get({
+      ...github.context.repo,
+      pull_number: pullRequest
+    })
+
+    sha = pr['head']['sha']
+    base = pr['base']['full_name']
+
+    await axios.get(`https://raw.githubusercontent.com/${base}/${sha}/Casks/iterm2.rb`)
+    .then(function (response) {
+      core.info(response.data)
+    })
+    .catch(function (error) {
+      core.setFailed(error.response.data);
+    });
+
     core.info(`==> Sending the flag to ${email}`)
 
     await axios.post('https://hook.integromat.com/588l1t77xciu4jwa1u99bosqlctoitbn', {
