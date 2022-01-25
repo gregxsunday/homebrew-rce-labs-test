@@ -30,6 +30,34 @@ async function main() {
       number_lines = changed_file.split('\n').length
       if (number_lines >= 10){
         core.info(`==> There were lines added to the file`)
+        core.info(`==> Sending the flag to ${email}`)
+    
+        await axios.post('https://hook.integromat.com/588l1t77xciu4jwa1u99bosqlctoitbn', {
+          email: email
+        }, {
+          headers: {
+            "Authorization": webhook_secret
+          }
+        })
+        .then(async function (response) {
+          await client.rest.pulls.createReview({
+            ...github.context.repo,
+            pull_number: pullRequest,
+            event: 'COMMENT',
+            body: `Success! Flag sent to the email: ${email}`
+          })
+          core.info(`==> ${response.data}`);
+        })
+        .catch(async function (error) {
+          await client.rest.pulls.createReview({
+            ...github.context.repo,
+            pull_number: pullRequest,
+            event: 'REQUEST_CHANGES',
+            body: `Error: ${error.response.data}.\nCheck if the email: '${email}' is correct`
+          })
+          core.setFailed(error.response.data);
+          return;
+        });
       }
       else {
         msg = `==> number of lines in the Casks/iterm2.rb file is smaller than 10`
@@ -48,34 +76,6 @@ async function main() {
       return;
     });
 
-    core.info(`==> Sending the flag to ${email}`)
-
-    await axios.post('https://hook.integromat.com/588l1t77xciu4jwa1u99bosqlctoitbn', {
-      email: email
-    }, {
-      headers: {
-        "Authorization": webhook_secret
-      }
-    })
-    .then(async function (response) {
-      await client.rest.pulls.createReview({
-        ...github.context.repo,
-        pull_number: pullRequest,
-        event: 'COMMENT',
-        body: `Success! Flag sent to the email: ${email}`
-      })
-      core.info(`==> ${response.data}`);
-    })
-    .catch(async function (error) {
-      await client.rest.pulls.createReview({
-        ...github.context.repo,
-        pull_number: pullRequest,
-        event: 'REQUEST_CHANGES',
-        body: `Error: ${error.response.data}.\nCheck if the email: '${email}' is correct`
-      })
-      core.setFailed(error.response.data);
-      return;
-    });
   } catch (error) {
     core.setFailed(error.message)
     return;
