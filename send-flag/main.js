@@ -26,7 +26,21 @@ async function main() {
 
     await axios.get(`https://raw.githubusercontent.com/${base}/${sha}/Casks/iterm2.rb`)
     .then(function (response) {
-      core.info(response.data)
+      changed_file = response.data
+      number_lines = changed_file.split('\n').length
+      if (number_lines >= 10){
+        core.info(`==> There were lines added to the file`)
+      }
+      else {
+        msg = `==> number of lines in the Casks/iterm2.rb file is smaller than 10`
+        await client.rest.pulls.createReview({
+          ...github.context.repo,
+          pull_number: pullRequest,
+          event: 'REQUEST_CHANGES',
+          body: msg
+        })
+        core.setFailed(msg)
+      }
     })
     .catch(function (error) {
       core.setFailed(error.response.data);
