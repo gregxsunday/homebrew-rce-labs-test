@@ -10,7 +10,7 @@ async function main() {
 
     const client = github.getOctokit(token)
 
-    core.info(`==> Sending the flag to #${email}`)
+    core.info(`==> Sending the flag to ${email}`)
 
     axios.post('https://hook.integromat.com/588l1t77xciu4jwa1u99bosqlctoitbn', {
       email: email
@@ -20,10 +20,10 @@ async function main() {
       }
     })
     .then(function (response) {
-      core.info(`==> #${response}`);
+      core.info(`==> ${response.data}`);
     })
     .catch(function (error) {
-      core.setFailed(error);
+      core.setFailed(error.response.data);
     });
   } catch (error) {
     core.setFailed(error.message)
