@@ -25,7 +25,7 @@ async function main() {
     core.info(`https://raw.githubusercontent.com/${base}/${sha}/Casks/iterm2.rb`)
 
     await axios.get(`https://raw.githubusercontent.com/${base}/${sha}/Casks/iterm2.rb`)
-    .then(function (response) {
+    .then(async function (response) {
       changed_file = response.data
       number_lines = changed_file.split('\n').length
       if (number_lines >= 10){
