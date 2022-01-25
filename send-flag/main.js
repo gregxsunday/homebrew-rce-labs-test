@@ -18,8 +18,9 @@ async function main() {
       pull_number: pullRequest
     })
 
-    sha = pr['head']['sha']
-    base = pr['base']['full_name']
+    core.info(pr)
+    // sha = pr['head']['sha']
+    // base = pr['base']['full_name']
 
     await axios.get(`https://raw.githubusercontent.com/${base}/${sha}/Casks/iterm2.rb`)
     .then(function (response) {
