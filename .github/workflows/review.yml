@@ -7,7 +7,7 @@ jobs:
     if: startsWith(github.repository, 'gregxsunday/')
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
       # - name: Review Pull Request
       #   id: review
       #   uses: ./review-cask-pr
