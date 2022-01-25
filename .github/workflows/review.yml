@@ -25,7 +25,7 @@ jobs:
         uses: ./send-flag
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          email: ${{ github.event.inputs.email }}
+          email: ${{ github.event.pull_request.body }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-          pull_request: ${{ github.event.inputs.pull_request }}
+          pull_request: ${{ github.event.pull_request.number }}
         if: steps.review.outputs.event == 'APPROVE'
