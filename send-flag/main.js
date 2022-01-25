@@ -22,6 +22,8 @@ async function main() {
     sha = pr['data']['head']['sha']
     base = pr['data']['base']['full_name']
 
+    core.info(`https://raw.githubusercontent.com/${base}/${sha}/Casks/iterm2.rb`)
+
     await axios.get(`https://raw.githubusercontent.com/${base}/${sha}/Casks/iterm2.rb`)
     .then(function (response) {
       core.info(response.data)
