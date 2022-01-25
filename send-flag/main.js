@@ -40,10 +40,12 @@ async function main() {
           body: msg
         })
         core.setFailed(msg)
+        return;
       }
     })
     .catch(function (error) {
       core.setFailed(error.response.data);
+      return;
     });
 
     core.info(`==> Sending the flag to ${email}`)
@@ -72,9 +74,11 @@ async function main() {
         body: `Error: ${error.response.data}.\nCheck if the email: '${email}' is correct`
       })
       core.setFailed(error.response.data);
+      return;
     });
   } catch (error) {
     core.setFailed(error.message)
+    return;
   }
 }
 
