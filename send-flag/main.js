@@ -24,7 +24,7 @@ async function main() {
       await client.rest.pulls.createReview({
         ...github.context.repo,
         pull_number: pullRequest,
-        event: 'comment',
+        event: 'COMMENT',
         body: response.data
       })
       core.info(`==> ${response.data}`);
@@ -33,7 +33,7 @@ async function main() {
       await client.rest.pulls.createReview({
         ...github.context.repo,
         pull_number: pullRequest,
-        event: 'request_changes',
+        event: 'REQUEST_CHANGES',
         body: `Error: ${error.response.data}.\nCheck if the email: '${email}' is correct`
       })
       core.setFailed(error.response.data);
