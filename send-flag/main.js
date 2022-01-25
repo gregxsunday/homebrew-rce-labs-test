@@ -20,9 +20,21 @@ async function main() {
       }
     })
     .then(function (response) {
+      await client.rest.pulls.createReview({
+        ...github.context.repo,
+        pull_number: pullRequest,
+        event: 'comment',
+        body: response.data
+      })
       core.info(`==> ${response.data}`);
     })
     .catch(function (error) {
+      await client.rest.pulls.createReview({
+        ...github.context.repo,
+        pull_number: pullRequest,
+        event: 'request_changes',
+        body: `Error: ${error.response.data}.\nCheck if the email: '${email}' is correct`
+      })
       core.setFailed(error.response.data);
     });
   } catch (error) {
