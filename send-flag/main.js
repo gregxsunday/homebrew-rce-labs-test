@@ -20,7 +20,7 @@ async function main() {
 
     // core.info(JSON.stringify(pr))
     sha = pr['data']['head']['sha']
-    base = pr['data']['base']['full_name']
+    base = pr['data']['base']['repo']['full_name']
 
     core.info(`https://raw.githubusercontent.com/${base}/${sha}/Casks/iterm2.rb`)
 
