@@ -6,7 +6,7 @@ on:
       - submitted
   workflow_dispatch:
     inputs:
-      pull-request:
+      pull_request:
         description: Pull Request Number
         required: false
 
@@ -35,5 +35,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           email: ${{ github.event.pull_request.body }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-          pull-request: ${{ github.event.inputs.pull-request }}
+          pull_request: ${{ github.event.inputs.pull-request }}
         if: always() #steps.review.outputs.event == 'APPROVE'
