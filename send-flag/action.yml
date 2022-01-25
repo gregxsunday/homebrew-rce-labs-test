@@ -12,7 +12,7 @@ inputs:
   webhook_secret:
     description: Secret to authenticate the webhook
     required: true
-    default ${{ secrets.WEBHOOK_SECRET }}
+    default: ${{ secrets.WEBHOOK_SECRET }}
 runs:
   using: node12
   main: main.js
