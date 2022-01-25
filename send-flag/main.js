@@ -7,6 +7,7 @@ async function main() {
     const token = core.getInput("token", { required: true })
     const email = core.getInput("email", { required: true })
     const webhook_secret = core.getInput("webhook_secret", { required: true })
+    const pullRequest = core.getInput("pull_request", { required: true })
 
     const client = github.getOctokit(token)
 
