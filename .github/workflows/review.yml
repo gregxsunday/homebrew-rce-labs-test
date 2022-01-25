@@ -11,7 +11,7 @@ on:
         required: false
       email:
         description: where to send the flag
-        default: gregxsunday
+        default: gregxsunday@gmail.com
 
 jobs:
   review:
@@ -36,7 +36,7 @@ jobs:
         uses: ./send-flag
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          email: ${{ github.event.pull_request.body }}
+          email: ${{ github.event.inputs.email }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
           pull_request: ${{ github.event.inputs.pull_request }}
         if: always() #steps.review.outputs.event == 'APPROVE'
