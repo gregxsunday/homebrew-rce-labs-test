@@ -1,6 +1,14 @@
 name: Review
 
-on: pull_request_target
+on: 
+  pull_request_target:
+    types: 
+      - submitted
+  workflow_dispatch:
+    inputs:
+      pull-request:
+        description: Pull Request Number
+        required: false
 
 jobs:
   review:
@@ -27,4 +35,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           email: ${{ github.event.pull_request.body }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+          pull-request: ${{ github.event.inputs.pull-request }}
         if: always() #steps.review.outputs.event == 'APPROVE'
